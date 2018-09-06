@@ -1,7 +1,11 @@
 package libshogun
 
+import (
+	"net/http"
+)
+
 type ShogunClient struct {
-	http_client *http.Client
+	http        *http.Client
 	dauth_token string
 }
 

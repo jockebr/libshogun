@@ -33,7 +33,7 @@ func (c *ShogunClient) DoRequest(endpoint string) (response string, err error) {
 
 	req.Header.Set("X-DeviceAuthorization", c.dauth_token)
 
-	resp, err := c.http_client.Do(req)
+	resp, err := c.http.Do(req)
 	if err != nil {
 		return nil, err
 	}
