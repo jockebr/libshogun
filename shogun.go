@@ -25,7 +25,7 @@ func NewShogunClient(shopn_cert, shopn_key, dauth_token string) (client *ShogunC
 	}, nil
 }
 
-func (c *ShogunClient) DoRequest(endpoint string) (response string, err error) {
+func (c *ShogunClient) DoRequest(endpoint string) (response []byte, err error) {
 	req, err := http.NewRequest("GET", "https://bugyo.hac.lp1.eshop.nintendo.net/shogun/v1"+endpoint, nil)
 	if err != nil {
 		return nil, err
@@ -45,9 +45,9 @@ func (c *ShogunClient) DoRequest(endpoint string) (response string, err error) {
 }
 
 func (c *ShogunClient) GetNsId(tid int) (ns int, err error) {
-	resp, err := c.DoRequest("/contents/ids?shop_id=4&lang=en&country=US&type=title&title_ids=" + tid)
+	resp, err := c.DoRequest("/contents/ids?shop_id=4&lang=en&country=US&type=title&title_ids=" + string(tid))
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	data := &NsRequestResponse{}
