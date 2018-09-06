@@ -14,6 +14,6 @@ type NsRequestResponse struct {
 }
 
 type IdPair struct {
-	ns_id    int `json:"id"`
-	title_id int `json:"title_id"`
+	ns_id    string `json:"id"`
+	title_id string `json:"title_id"`
 }

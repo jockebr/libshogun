@@ -44,12 +44,13 @@ func (c *ShogunClient) DoRequest(endpoint string) (response []byte, err error) {
 	return bytes, nil
 }
 
-func (c *ShogunClient) GetNsId(tid int) (ns int, err error) {
+func (c *ShogunClient) GetNsId(tid string) (ns int, err error) {
 	resp, err := c.DoRequest("/contents/ids?shop_id=4&lang=en&country=US&type=title&title_ids=" + string(tid))
 	if err != nil {
 		return 0, err
 	}
 
+	fmt.Printf(string(resp) + "\n")
 	data := &NsRequestResponse{}
 	json.Unmarshal(resp, data)
 
