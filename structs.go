@@ -9,11 +9,22 @@ type ShogunClient struct {
 	dauth_token string
 }
 
-type NsRequestResponse struct {
-	id_pair *IdPair `json:"id_pairs"`
+type Title struct {
+	id int
+	name
+	banner_url
+	release_date string
+	is_new
+	is_dlc bool
+	description
+	genre       string
+	size        int64
+	screenshots []string
+	movies      []string
+	publisher   Publisher
 }
 
-type IdPair struct {
-	ns_id    string `json:"id"`
-	title_id string `json:"title_id"`
+type Publisher struct {
+	id   int
+	name string
 }
