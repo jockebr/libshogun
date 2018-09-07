@@ -69,8 +69,8 @@ func (c *ShogunClient) DoShogunRequest(endpoint string) (response []byte, err er
 	return bytes, nil
 }
 
-// GetNsId returns the NS ID for the given Title ID
-func (c *ShogunClient) GetNsId(tid string) (ns int64, err error) {
+// GetNsID returns the NS ID for the given Title ID
+func (c *ShogunClient) GetNsID(tid string) (ns int64, err error) {
 	resp, err := c.DoShogunRequest("/contents/ids?shop_id=4&lang=en&country=US&type=title&title_ids=" + tid)
 	if err != nil {
 		return 0, err
@@ -101,23 +101,23 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 		return &Title{}, err
 	}
 
-	banner_url, err := jsonparser.GetString(resp, "hero_banner_url")
+	bannerUrl, err := jsonparser.GetString(resp, "hero_banner_url")
 	if err != nil {
 		return &Title{}, err
 	}
-	banner_url = "https://bugyo.hac.lp1.eshop.nintendo.net" + banner_url
+	bannerUrl = "https://bugyo.hac.lp1.eshop.nintendo.net" + bannerUrl
 
-	release_date, err := jsonparser.GetString(resp, "release_date_on_eshop")
-	if err != nil {
-		return &Title{}, err
-	}
-
-	is_new, err := jsonparser.GetBoolean(resp, "is_new")
+	releaseDate, err := jsonparser.GetString(resp, "release_date_on_eshop")
 	if err != nil {
 		return &Title{}, err
 	}
 
-	is_dlc, err := jsonparser.GetBoolean(resp, "in_app_purchase")
+	isNew, err := jsonparser.GetBoolean(resp, "is_new")
+	if err != nil {
+		return &Title{}, err
+	}
+
+	isDlc, err := jsonparser.GetBoolean(resp, "in_app_purchase")
 	if err != nil {
 		return &Title{}, err
 	}
@@ -155,34 +155,34 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 		})
 	}, "movies")
 
-	pub_id, err := jsonparser.GetInt(resp, "publisher", "id")
+	pubId, err := jsonparser.GetInt(resp, "publisher", "id")
 	if err != nil {
 		return &Title{}, err
 	}
 
-	pub_name, err := jsonparser.GetString(resp, "publisher", "name")
+	pubName, err := jsonparser.GetString(resp, "publisher", "name")
 	if err != nil {
 		return &Title{}, err
 	}
 
-	title_id, err := jsonparser.GetString(resp, "applications", "[0]", "id")
+	titleId, err := jsonparser.GetString(resp, "applications", "[0]", "id")
 	if err != nil {
 		return &Title{}, err
 	}
 
-	icon_url, err := jsonparser.GetString(resp, "applications", "[0]", "image_url")
+	iconUrl, err := jsonparser.GetString(resp, "applications", "[0]", "image_url")
 	if err != nil {
 		return &Title{}, err
 	}
-	icon_url = "https://bugyo.hac.lp1.eshop.nintendo.net" + icon_url
+	iconUrl = "https://bugyo.hac.lp1.eshop.nintendo.net" + iconUrl
 
 	return &Title{
 		id,
 		name,
-		banner_url,
-		release_date,
-		is_new,
-		is_dlc,
+		bannerUrl,
+		releaseDate,
+		isNew,
+		isDlc,
 		description,
 		genre,
 		size,
@@ -192,7 +192,7 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 			pub_id,
 			pub_name,
 		},
-		title_id,
-		icon_url,
+		titleId,
+		iconUrl,
 	}, nil
 }
