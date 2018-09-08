@@ -189,8 +189,8 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 		screenshots,
 		movies,
 		&Publisher{
-			pub_id,
-			pub_name,
+			pubId,
+			pubName,
 		},
 		titleId,
 		iconUrl,
