@@ -10,8 +10,8 @@ import (
 )
 
 // NewShogunClient creates a new ShogunClient
-func NewShogunClient(shopn_cert, shopn_key, dauth_token string) (client *ShogunClient, err error) {
-	shopn, err := tls.LoadX509KeyPair(shopn_cert, shopn_key)
+func NewShogunClient(shopnCert, shopnKey, dauthToken string) (client *ShogunClient, err error) {
+	shopn, err := tls.LoadX509KeyPair(shopnCert, shopnKey)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func (c *ShogunClient) GetNsID(tid string) (ns int64, err error) {
 }
 
 // GetTitleData returns a Title instance for the given NS ID
-func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
+func (c *ShogunClient) GetTitleData(nsID int64) (title *Title, err error) {
 	resp, err := c.DoShogunRequest("/titles/" + strconv.FormatInt(ns_id, 10) + "?shop_id=4&lang=en&country=US")
 	if err != nil {
 		return &Title{}, err
@@ -101,11 +101,11 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 		return &Title{}, err
 	}
 
-	bannerUrl, err := jsonparser.GetString(resp, "hero_banner_url")
+	bannerURL, err := jsonparser.GetString(resp, "hero_banner_url")
 	if err != nil {
 		return &Title{}, err
 	}
-	bannerUrl = "https://bugyo.hac.lp1.eshop.nintendo.net" + bannerUrl
+	bannerURL = "https://bugyo.hac.lp1.eshop.nintendo.net" + bannerURL
 
 	releaseDate, err := jsonparser.GetString(resp, "release_date_on_eshop")
 	if err != nil {
@@ -117,7 +117,7 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 		return &Title{}, err
 	}
 
-	isDlc, err := jsonparser.GetBoolean(resp, "in_app_purchase")
+	isDLC, err := jsonparser.GetBoolean(resp, "in_app_purchase")
 	if err != nil {
 		return &Title{}, err
 	}
@@ -147,15 +147,15 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 	jsonparser.ArrayEach(resp, func(value []byte, value_type jsonparser.ValueType, offset int, err error) {
 		// todo: add error checking
 		url, _ := jsonparser.GetString(value, "movie_url")
-		thumbnail_url, _ := jsonparser.GetString(value, "thumbnail_url")
+		thumbnailURL, _ := jsonparser.GetString(value, "thumbnail_url")
 
 		movies = append(movies, &Movie{
-			URL:       "https://bugyo.hac.lp1.eshop.nintendo.net" + url,
-			Thumbnail: "https://bugyo.hac.lp1.eshop.nintendo.net" + thumbnail_url,
+			"https://bugyo.hac.lp1.eshop.nintendo.net" + url,
+			"https://bugyo.hac.lp1.eshop.nintendo.net" + thumbnailURL,
 		})
 	}, "movies")
 
-	pubId, err := jsonparser.GetInt(resp, "publisher", "id")
+	pubID, err := jsonparser.GetInt(resp, "publisher", "id")
 	if err != nil {
 		return &Title{}, err
 	}
@@ -165,34 +165,34 @@ func (c *ShogunClient) GetTitleData(ns_id int64) (title *Title, err error) {
 		return &Title{}, err
 	}
 
-	titleId, err := jsonparser.GetString(resp, "applications", "[0]", "id")
+	titleID, err := jsonparser.GetString(resp, "applications", "[0]", "id")
 	if err != nil {
 		return &Title{}, err
 	}
 
-	iconUrl, err := jsonparser.GetString(resp, "applications", "[0]", "image_url")
+	iconURL, err := jsonparser.GetString(resp, "applications", "[0]", "image_url")
 	if err != nil {
 		return &Title{}, err
 	}
-	iconUrl = "https://bugyo.hac.lp1.eshop.nintendo.net" + iconUrl
+	iconURL = "https://bugyo.hac.lp1.eshop.nintendo.net" + iconURL
 
 	return &Title{
 		id,
 		name,
-		bannerUrl,
+		bannerURL,
 		releaseDate,
 		isNew,
-		isDlc,
+		isDLC,
 		description,
 		genre,
 		size,
 		screenshots,
 		movies,
 		&Publisher{
-			pubId,
+			pubID,
 			pubName,
 		},
-		titleId,
-		iconUrl,
+		titleID,
+		iconURL,
 	}, nil
 }
