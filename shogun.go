@@ -140,8 +140,9 @@ func (c *ShogunClient) GetTitleData(nsID int64) (title *Title, err error) {
 	screenshots := []string{}
 	jsonparser.ArrayEach(resp, func(value []byte, value_type jsonparser.ValueType, offset int, err error) {
 		// todo: add error checking
-		screenshots = append(screenshots, "https://bugyo.hac.lp1.eshop.nintendo.net"+string(value))
-	}, "images", "url")
+		url, _ := jsonparser.GetString(value, "images", "[0]", "url")
+		screenshots = append(screenshots, "https://bugyo.hac.lp1.eshop.nintendo.net"+string(url))
+	}, "screenshots")
 
 	movies := []*Movie{}
 	jsonparser.ArrayEach(resp, func(value []byte, value_type jsonparser.ValueType, offset int, err error) {
