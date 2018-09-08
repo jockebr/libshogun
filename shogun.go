@@ -3,6 +3,7 @@ package libshogun
 
 import (
 	"crypto/tls"
+	"errors"
 	"github.com/buger/jsonparser"
 	"io/ioutil"
 	"net/http"
@@ -74,6 +75,10 @@ func (c *ShogunClient) GetNsID(tid string) (nsID int64, err error) {
 	resp, err := c.DoShogunRequest("/contents/ids?shop_id=4&lang=en&country=US&type=title&title_ids=" + tid)
 	if err != nil {
 		return 0, err
+	}
+
+	if string(resp) == "{\"id_pairs\":[]}" {
+		return 0, errors.New("NS ID not for this title ID!")
 	}
 
 	id, err := jsonparser.GetInt(resp, "id_pairs", "[0]", "id")
