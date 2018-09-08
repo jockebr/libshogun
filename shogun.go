@@ -122,11 +122,6 @@ func (c *ShogunClient) GetTitleData(nsID int64) (title *Title, err error) {
 		return &Title{}, err
 	}
 
-	isDLC, err := jsonparser.GetBoolean(resp, "in_app_purchase")
-	if err != nil {
-		return &Title{}, err
-	}
-
 	description, err := jsonparser.GetString(resp, "description")
 	if err != nil {
 		return &Title{}, err

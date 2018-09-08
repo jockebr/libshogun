@@ -17,7 +17,6 @@ type Title struct {
 	BannerURL   string
 	ReleaseDate string
 	IsNew       bool
-	IsDLC       bool
 	Description string
 	Genre       string
 	Size        int64
