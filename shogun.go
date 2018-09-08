@@ -78,7 +78,7 @@ func (c *ShogunClient) GetNsID(tid string) (nsID int64, err error) {
 	}
 
 	if string(resp) == "{\"id_pairs\":[]}" {
-		return 0, errors.New("NS ID not for this title ID!")
+		return 0, errors.New("NS ID not avaliable for this title ID!")
 	}
 
 	id, err := jsonparser.GetInt(resp, "id_pairs", "[0]", "id")
