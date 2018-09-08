@@ -182,7 +182,6 @@ func (c *ShogunClient) GetTitleData(nsID int64) (title *Title, err error) {
 		bannerURL,
 		releaseDate,
 		isNew,
-		isDLC,
 		description,
 		genre,
 		size,
