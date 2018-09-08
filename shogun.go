@@ -25,7 +25,7 @@ func NewShogunClient(shopnCert, shopnKey, dauthToken string) (client *ShogunClie
 				},
 			},
 		},
-		dauth_token,
+		dauthToken,
 	}, nil
 }
 
@@ -70,7 +70,7 @@ func (c *ShogunClient) DoShogunRequest(endpoint string) (response []byte, err er
 }
 
 // GetNsID returns the NS ID for the given Title ID
-func (c *ShogunClient) GetNsID(tid string) (ns int64, err error) {
+func (c *ShogunClient) GetNsID(tid string) (nsID int64, err error) {
 	resp, err := c.DoShogunRequest("/contents/ids?shop_id=4&lang=en&country=US&type=title&title_ids=" + tid)
 	if err != nil {
 		return 0, err
@@ -86,7 +86,7 @@ func (c *ShogunClient) GetNsID(tid string) (ns int64, err error) {
 
 // GetTitleData returns a Title instance for the given NS ID
 func (c *ShogunClient) GetTitleData(nsID int64) (title *Title, err error) {
-	resp, err := c.DoShogunRequest("/titles/" + strconv.FormatInt(ns_id, 10) + "?shop_id=4&lang=en&country=US")
+	resp, err := c.DoShogunRequest("/titles/" + strconv.FormatInt(nsID, 10) + "?shop_id=4&lang=en&country=US")
 	if err != nil {
 		return &Title{}, err
 	}
